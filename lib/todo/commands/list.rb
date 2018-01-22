@@ -1,0 +1,14 @@
+require 'todo'
+require 'json'
+
+module Todo
+  module Commands
+    class List < Todo::Command
+      def call(args, _name)
+        list = Todo::Config.get('list') || '[]'
+        data = JSON.parse(list)
+        data.each.with_index { |d, i| puts(format("%2d: %s", i, d)) }
+      end
+    end
+  end
+end

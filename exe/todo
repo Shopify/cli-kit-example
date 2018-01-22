@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby --disable-gems
+
+Encoding.default_external = Encoding::UTF_8
+Encoding.default_internal = Encoding::UTF_8
+
+lib_path = File.expand_path("../../lib", __FILE__)
+$LOAD_PATH.unshift(lib_path) unless $LOAD_PATH.include?(lib_path)
+
+deps = %w(cli-ui cli-kit)
+deps.each do |dep|
+  vendor_path = File.expand_path("../../vendor/deps/#{dep}/lib", __FILE__)
+  $LOAD_PATH.unshift(vendor_path) unless $LOAD_PATH.include?(vendor_path)
+end
+
+require 'todo'
+# CLI::Kit::ReportErrors.setup(logfile, Todo::ErrorReporter)
+exit Todo::EntryPoint.call(ARGV.dup)
