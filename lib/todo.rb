@@ -1,9 +1,9 @@
 require 'cli/ui'
 require 'cli/kit'
 
-module Todo
-  NAME = 'todo'
+CLI::Kit.tool_name = 'todo'
 
+module Todo
   autoload :EntryPoint, 'todo/entry_point'
   autoload :Config,     'todo/config'
   autoload :Command,    'todo/command'

@@ -2,12 +2,8 @@ require 'todo'
 
 module Todo
   class EntryPoint < CLI::Kit::EntryPoint
-    def self.tool_name
-      Todo::NAME
-    end
-
     def self.log_file
-      "/tmp/#{Todo::NAME}.log"
+      "/tmp/todo.log"
     end
   end
 end

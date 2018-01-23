@@ -21,7 +21,7 @@ module CLI
       end
 
       def self.extended(base)
-        raise "multiple registries unsupported" if registry_target
+        raise "multiple registries unsupported" if self.registry_target
         self.registry_target = base
         base.commands = {}
         base.aliases = {}

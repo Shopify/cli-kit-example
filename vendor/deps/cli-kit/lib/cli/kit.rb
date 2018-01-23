@@ -2,18 +2,18 @@ require 'cli/ui'
 
 module CLI
   module Kit
+    class << self
+      attr_accessor :tool_name
+    end
+
     autoload :BaseCommand,     'cli/kit/base_command'
     autoload :CommandRegistry, 'cli/kit/command_registry'
     autoload :Config,          'cli/kit/config'
     autoload :EntryPoint,      'cli/kit/entry_point'
+    autoload :Ini,             'cli/kit/ini'
+    autoload :Levenshtein,     'cli/kit/levenshtein'
     autoload :ReportErrors,    'cli/kit/report_errors'
     autoload :System,          'cli/kit/system'
-
-    class << self
-      attr_accessor :failmoji, :emoji
-    end
-    self.failmoji = "\u{1f469}\u{200d}\u{1f4bb}  "
-    self.emoji    = "\u{1f937}  "
 
     EXIT_FAILURE_BUT_NOT_BUG = 30
     EXIT_BUG                 = 1
@@ -43,8 +43,9 @@ module CLI
     #   * In general, don't attach a message to AbortSilent or BugSilent.
     #   * Never raise GenericAbort directly.
     #   * Think carefully about whether Abort or Bug is more appropriate. Is this
-    #       a dev bug? Or is it just user error, transient network failure, etc.?
-    #   * One case where it's ok to rescue these outside of Dev::CLI#call or tests:
+    #       a bug in the tool? Or is it just user error, transient network
+    #       failure, etc.?
+    #   * One case where it's ok to rescue these outside of EntryPoint (or tests):
     #       1. rescue Abort or Bug
     #       2. Print a contextualized error message
     #       3. Re-raise AbortSilent or BugSilent respectively.

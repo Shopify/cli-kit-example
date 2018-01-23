@@ -19,10 +19,6 @@ module CLI
         nil
       end
 
-      def self.tool_name
-        $PROGRAM_NAME
-      end
-
       # End Interface methods
 
       def self.call(args)
@@ -66,6 +62,10 @@ module CLI
         CLI::Kit::CommandRegistry.registry_target.lookup_command(name)
       end
 
+      def self.format_error_message(msg)
+        CLI::UI.fmt("{{red:#{e.message}}}")
+      end
+
       def self.handle_abort
         yield
       rescue CLI::Kit::GenericAbort => e
@@ -75,7 +75,7 @@ module CLI
         if !is_silent && ENV['IM_ALREADY_PRO_THANKS'].nil?
           troubleshoot(e)
         elsif !is_silent
-          STDERR.puts(CLI::UI.fmt("#{CLI::Kit.failmoji}{{red:#{e.message}}}"))
+          STDERR.puts(format_error_message(e.message))
         end
 
         if is_bug
@@ -84,13 +84,13 @@ module CLI
 
         return CLI::Kit::EXIT_FAILURE_BUT_NOT_BUG
       rescue Interrupt
-        STDERR.puts(CLI::UI.fmt("#{CLI::Kit.failmoji}{{red:Interrupt}}"))
+        STDERR.puts(format_error_message("Interrupt"))
         return CLI::Kit::EXIT_FAILURE_BUT_NOT_BUG
       end
 
       def with_logging(log_file, &block)
         return yield unless log_file
-        CLI::UI.log_output_to(LOG_FILE, &block)
+        CLI::UI.log_output_to(log_file, &block)
       end
 
       def self.commands_and_aliases
@@ -103,12 +103,7 @@ module CLI
           EntryPoint.handle_abort do
             if @command.nil?
               CLI::UI::Frame.open("Command not found", color: :red, timing: false) do
-                STDERR.puts(CLI::UI.fmt("{{command:#{EntryPoint.tool_name} #{@command_name}}} was not found"))
-              end
-
-              # TODO: this can be removed when we drop Sierra support
-              unless `uname -sr`.strip.start_with?('Darwin 17')
-                raise CLI::Kit::AbortSilent
+                STDERR.puts(CLI::UI.fmt("{{command:#{CLI::Kit.tool_name} #{@command_name}}} was not found"))
               end
 
               cmds = EntryPoint.commands_and_aliases
@@ -127,7 +122,7 @@ module CLI
                 if possible_matches.any?
                   CLI::UI::Frame.open("{{bold:Did you mean?}}", timing: false, color: :blue) do
                     possible_matches.each do |possible_match|
-                      STDERR.puts CLI::UI.fmt("{{command:#{EntryPoint.tool_name} #{possible_match}}}")
+                      STDERR.puts CLI::UI.fmt("{{command:#{CLI::Kit.tool_name} #{possible_match}}}")
                     end
                   end
                 end

@@ -8,7 +8,10 @@ module CLI
       end
 
       # error_reporter should support the interface:
-      #  .call(notify_with, logs = nil, stage = nil, api_key = nil, custom_metadata = {})
+      #  .call(
+      #    notify_with, :: Exception
+      #    logs,        :: String (stdout+stderr of process before crash)
+      #  )
       def self.setup(logfile_path, error_reporter)
         at_exit do
           CLI::Kit::ReportErrors.call(exception || $ERROR_INFO, logfile_path, error_reporter)
