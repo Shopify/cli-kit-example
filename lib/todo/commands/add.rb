@@ -10,6 +10,10 @@ module Todo
         data << args.first
         Todo::Config.set('list', data.to_json)
       end
+
+      def self.help
+        "Add a todo entry.\nUsage: {{command:#{CLI::Kit.tool_name} add}} {{info:data}}"
+      end
     end
   end
 end

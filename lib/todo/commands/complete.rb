@@ -10,6 +10,10 @@ module Todo
         data.slice!(args.first.to_i)
         Todo::Config.set('list', data.to_json)
       end
+
+      def self.help
+        "Completes the todo entry at specified index.\nUsage: {{command:#{CLI::Kit.tool_name} add}} {{info:index_of_entry}}"
+      end
     end
   end
 end

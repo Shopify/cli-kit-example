@@ -9,6 +9,10 @@ module Todo
         data = JSON.parse(list)
         data.each.with_index { |d, i| puts(format("%2d: %s", i, d)) }
       end
+
+      def self.help
+        "Lists the todo entries.\nUsage: {{command:#{CLI::Kit.tool_name} list}}"
+      end
     end
   end
 end
