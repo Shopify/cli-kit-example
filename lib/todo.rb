@@ -2,8 +2,11 @@ require 'cli/ui'
 require 'cli/kit'
 
 CLI::Kit.tool_name = 'todo'
+CLI::UI::StdoutRouter.enable
 
 module Todo
+  ROOT = File.expand_path('../../', __FILE__)
+
   autoload :EntryPoint, 'todo/entry_point'
   autoload :Config,     'todo/config'
   autoload :Command,    'todo/command'
