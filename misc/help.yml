@@ -31,7 +31,7 @@ add:
     Given one argument - a string defining your task - create that task and save it.
 
     Example:
-      {{command:todo add buy milk}}
+      {{command:todo add "buy milk"}}
 
 list:
   syntax:
