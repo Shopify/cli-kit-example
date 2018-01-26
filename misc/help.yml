@@ -1,0 +1,56 @@
+help:
+  syntax:
+    optional:
+      alternate:
+        - { flag: all }
+        - { argument: command }
+  summary: |
+    Todo is a simple TODO list manager, supporting three commands:
+
+    {{bold:TODO list management}}
+      {{command:add}}       Creates a new TODO item
+      {{command:complete}}  Complete an existing TODO
+      {{command:list}}      List pending TODOs
+
+    {{bold:Help!}}
+      Run {{command:todo help}} to see this message
+      Run {{command:todo help --all}} to see help for all commands
+      Run {{command:todo help {{yellow:<command>}}}} to see detailed help for a specific command
+  desc: 'Show help for one or all commands'
+  long_desc: |
+    By default, a brief summary is printed.
+
+    You can access a summary of all commands with {{command:todo help --all}}
+
+    You can access help for a specific command with {{command:todo help {{yellow:<command>}}}}
+
+add:
+  syntax: { argument: task }
+  desc: 'Create a new TODO item'
+  long_desc: |
+    Given one argument - a string defining your task - create that task and save it.
+
+    Example:
+      {{command:todo add buy milk}}
+
+list:
+  syntax:
+  desc: 'List all pending TODOs'
+  long_desc: |
+    List all uncompleted tasks, alongside numeric indices used to complete the tasks with {{command:todo complete}}.
+
+    Example:
+      $ {{command:todo list}}
+      0. buy milk
+
+complete:
+  syntax: { argument: index }
+  desc: 'Complete an existing TODO by passing the index given in {{command:todo list}}'
+  long_desc: |
+    Given the index of the task to complete, irretrivably delete it.
+
+    Example:
+      $ {{command:todo list}}
+      0. buy milk
+      $ {{command:todo complete 0}}
+
