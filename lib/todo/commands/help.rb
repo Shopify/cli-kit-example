@@ -7,10 +7,10 @@ module Todo
         puts CLI::UI.fmt("{{bold:Available commands}}")
         puts ""
 
-        Commands.commands.each do |name, klass_name|
+        Commands::REGISTRY.resolved_commands.each do |name, klass|
           next if name == 'help'
-          puts CLI::UI.fmt("{{command:#{CLI::Kit.tool_name} #{name}}}")
-          if help = Todo::Commands.const_get(klass_name).help
+          puts CLI::UI.fmt("{{command:#{Todo::TOOL_NAME} #{name}}}")
+          if help = klass.help
             puts CLI::UI.fmt(help)
           end
           puts ""
