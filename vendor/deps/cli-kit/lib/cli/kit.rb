@@ -1,16 +1,15 @@
 require 'cli/ui'
-require_relative '../ruby_backports/enumerable.rb'
+require 'cli/kit/ruby_backports/enumerable'
 
 module CLI
   module Kit
     autoload :BaseCommand,     'cli/kit/base_command'
     autoload :CommandRegistry, 'cli/kit/command_registry'
     autoload :Config,          'cli/kit/config'
-    autoload :Errors,          'cli/kit/errors'
+    autoload :ErrorHandler,    'cli/kit/error_handler'
     autoload :Executor,        'cli/kit/executor'
     autoload :Ini,             'cli/kit/ini'
     autoload :Levenshtein,     'cli/kit/levenshtein'
-    autoload :ReportErrors,    'cli/kit/report_errors'
     autoload :Resolver,        'cli/kit/resolver'
     autoload :System,          'cli/kit/system'
 

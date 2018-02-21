@@ -12,5 +12,6 @@ unshift_path.call('vendor/deps/cli-kit/lib')
 unshift_path.call('lib')
 
 require 'todo'
-# CLI::Kit::ReportErrors.setup(logfile, Todo::ErrorReporter)
+
+Todo::ErrorHandler.install!
 exit Todo::EntryPoint.call(ARGV.dup)
