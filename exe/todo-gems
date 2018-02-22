@@ -12,5 +12,4 @@ unshift_path.call('lib')
 require 'bundler/setup'
 require 'todo'
 
-Todo::ErrorHandler.install!
 exit Todo::EntryPoint.call(ARGV.dup)

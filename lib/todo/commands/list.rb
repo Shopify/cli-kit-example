@@ -11,7 +11,7 @@ module Todo
       end
 
       def self.help
-        "Lists the todo entries.\nUsage: {{command:#{Todo::TOOL_NAME} list}}"
+        "Lists the todo entries.\nUsage: {{command:#{CLI::Kit.tool_name} list}}"
       end
     end
   end
