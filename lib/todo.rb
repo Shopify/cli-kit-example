@@ -1,15 +1,18 @@
 require 'cli/ui'
 require 'cli/kit'
 
-module Todo
-  TOOL_NAME = 'todo'
-  LOG_FILE  = '/tmp/todo.log'
+CLI::Kit.configure do |config|
+  config.command_registry = CLI::Kit::CommandRegistry.new
+  config.default_command = 'help'
+  config.error_handler = CLI::Kit::ErrorHandler.new
+  config.executor = CLI::Kit::Executor.new
+  config.log_file = "/tmp/todo.log"
+  config.resolver = CLI::Kit::Resolver.new
+  config.tool_name = "todo"
+end
 
+module Todo
   autoload :Config,       'todo/config'
   autoload :Command,      'todo/command'
-  autoload :Commands,     'todo/commands'
   autoload :EntryPoint,   'todo/entry_point'
-  autoload :ErrorHandler, 'todo/error_handler'
-  autoload :Executor,     'todo/executor'
-  autoload :Resolver,     'todo/resolver'
 end

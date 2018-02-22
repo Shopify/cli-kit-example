@@ -2,11 +2,9 @@ require 'todo'
 
 module Todo
   module Commands
-    REGISTRY = CLI::Kit::CommandRegistry.new(default: 'help')
-
     def self.register(const, cmd, path)
       autoload(const, path)
-      REGISTRY.add(->() { const_get(const) }, cmd)
+      CLI::Kit.command_registry.add(->() { const_get(const) }, cmd)
     end
 
     register :Add,      'add',      'todo/commands/add'
