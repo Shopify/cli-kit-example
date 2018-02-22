@@ -13,4 +13,6 @@ unshift_path.call('lib')
 
 require 'todo'
 
-exit Todo::EntryPoint.call(ARGV.dup)
+exit(Todo::ErrorHandler.call do
+  Todo::EntryPoint.call(ARGV.dup)
+end)
