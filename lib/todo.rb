@@ -1,18 +1,33 @@
 require 'cli/ui'
 require 'cli/kit'
 
-CLI::Kit.configure do |config|
-  config.command_registry = CLI::Kit::CommandRegistry.new
-  config.default_command = 'help'
-  config.error_handler = CLI::Kit::ErrorHandler.new
-  config.executor = CLI::Kit::Executor.new
-  config.log_file = "/tmp/todo.log"
-  config.resolver = CLI::Kit::Resolver.new
-  config.tool_name = "todo"
-end
+CLI::UI::StdoutRouter.enable
 
 module Todo
-  autoload :Config,       'todo/config'
-  autoload :Command,      'todo/command'
-  autoload :EntryPoint,   'todo/entry_point'
+  extend CLI::Kit::Autocall
+
+  TOOL_NAME = 'todo'
+  ROOT      = File.expand_path('../..', __FILE__)
+  LOG_FILE  = '/tmp/todo.log'
+
+  autoload(:EntryPoint, 'todo/entry_point')
+  autoload(:Commands,   'todo/commands')
+
+  autocall(:Config)  { CLI::Kit::Config.new(tool_name: TOOL_NAME) }
+  autocall(:Command) { CLI::Kit::BaseCommand }
+
+  autocall(:Executor) { CLI::Kit::Executor.new(log_file: LOG_FILE) }
+  autocall(:Resolver) do
+    CLI::Kit::Resolver.new(
+      tool_name: TOOL_NAME,
+      command_registry: Todo::Commands::Registry
+    )
+  end
+
+  autocall(:ErrorHandler) do
+    CLI::Kit::ErrorHandler.new(
+      log_file: LOG_FILE,
+      exception_reporter: nil
+    )
+  end
 end

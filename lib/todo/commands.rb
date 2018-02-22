@@ -2,9 +2,16 @@ require 'todo'
 
 module Todo
   module Commands
+    # No point in using autoload/autocall here; it's loaded immediately by
+    # `register` calls.
+    Registry = CLI::Kit::CommandRegistry.new(
+      default: 'help',
+      contextual_resolver: nil
+    )
+
     def self.register(const, cmd, path)
       autoload(const, path)
-      CLI::Kit.command_registry.add(->() { const_get(const) }, cmd)
+      Registry.add(->() { const_get(const) }, cmd)
     end
 
     register :Add,      'add',      'todo/commands/add'

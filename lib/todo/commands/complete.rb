@@ -12,7 +12,7 @@ module Todo
       end
 
       def self.help
-        "Completes the todo entry at specified index.\nUsage: {{command:#{CLI::Kit.tool_name} add}} {{info:index_of_entry}}"
+        "Completes the todo entry at specified index.\nUsage: {{command:#{Todo::TOOL_NAME} add}} {{info:index_of_entry}}"
       end
     end
   end
